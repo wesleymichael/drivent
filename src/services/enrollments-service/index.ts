@@ -13,6 +13,10 @@ async function getAddressFromCEP(cep: string) {
     throw notFoundError();
   }
 
+  if (result.data.erro === true) {
+    throw invalidDataError([`Non-existent data for the CEP informed.`]);
+  }
+
   const { logradouro, complemento, bairro, localidade: cidade, uf } = result.data;
   const address: ViaCEPAddress = { logradouro, complemento, bairro, cidade, uf };
   return address;

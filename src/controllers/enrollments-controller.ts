@@ -35,8 +35,9 @@ export async function getAddressFromCEP(req: AuthenticatedRequest, res: Response
     const address: ViaCEPAddress = await enrollmentsService.getAddressFromCEP(cep);
     res.status(httpStatus.OK).send(address);
   } catch (error) {
-    if (error.name === 'NotFoundError') {
-      return res.send(httpStatus.NO_CONTENT);
+    if (error.name === 'NotFoundError' || error.name === 'InvalidDataError') {
+      console.log(error);
+      return res.status(httpStatus.NO_CONTENT).send(error.details);
     }
   }
 }
