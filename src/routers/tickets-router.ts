@@ -1,9 +1,14 @@
 import { Router } from 'express';
 import { authenticateToken } from '@/middlewares';
-import { getAllTicketsTypes, getTicket } from '@/controllers/tickets-controller';
+import { getAllTicketsTypes, getTicket, postTicket } from '@/controllers/tickets-controller';
 
 const ticketRouter = Router();
 
-ticketRouter.use(authenticateToken).get('/types', getAllTicketsTypes).get('/', getTicket);
+// eslint-disable-next-line prettier/prettier
+ticketRouter
+  .use(authenticateToken)
+  .get('/types', getAllTicketsTypes)
+  .get('/', getTicket)
+  .post('/', postTicket);
 
 export { ticketRouter };
