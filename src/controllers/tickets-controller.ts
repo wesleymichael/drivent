@@ -11,3 +11,16 @@ export async function getAllTicketsTypes(req: AuthenticatedRequest, res: Respons
     return res.sendStatus(httpStatus.BAD_REQUEST);
   }
 }
+
+export async function getTicket(req: AuthenticatedRequest, res: Response) {
+  const userId = req.userId;
+  try {
+    const ticket = await ticketService.getTicketById(userId);
+    return res.status(httpStatus.OK).send(ticket);
+  } catch (error) {
+    if (error.name === 'NotFoundError') {
+      return res.status(httpStatus.NOT_FOUND).send(error.message);
+    }
+    return res.sendStatus(httpStatus.BAD_REQUEST);
+  }
+}
