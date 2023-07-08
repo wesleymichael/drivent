@@ -4,3 +4,5 @@ export * from './events-service';
 export * from './enrollments-service';
 // eslint-disable-next-line import/export
 export * from './tickets-service';
+// eslint-disable-next-line import/export
+export * from './payments-service';
