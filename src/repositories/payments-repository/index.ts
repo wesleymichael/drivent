@@ -1,4 +1,5 @@
 import { prisma } from '@/config';
+import { CreatePayment } from '@/protocols';
 
 async function findPaymentByTicketId(ticketId: number) {
   return prisma.payment.findFirst({
@@ -17,9 +18,16 @@ async function checkTicketOwnership(ticketId: number, userId: number) {
   });
 }
 
+async function createTicketPayment(data: CreatePayment) {
+  return await prisma.payment.create({
+    data,
+  });
+}
+
 const paymentsRepository = {
   findPaymentByTicketId,
   checkTicketOwnership,
+  createTicketPayment,
 };
 
 export default paymentsRepository;

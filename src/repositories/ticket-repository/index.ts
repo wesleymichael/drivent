@@ -33,11 +33,37 @@ async function getTicket(ticketId: number) {
   });
 }
 
+async function getTicketTypePrice(ticketTypeId: number) {
+  return prisma.ticketType.findUnique({
+    select: {
+      price: true,
+    },
+    where: {
+      id: ticketTypeId,
+    },
+  });
+}
+
+async function updateTicketStatus(userId: number) {
+  return await prisma.ticket.updateMany({
+    data: {
+      status: 'PAID',
+    },
+    where: {
+      Enrollment: {
+        userId: userId,
+      },
+    },
+  });
+}
+
 const ticketRepository = {
   findAllTicketsTypes,
   findTicketById,
   createTicket,
   getTicket,
+  getTicketTypePrice,
+  updateTicketStatus,
 };
 
 export default ticketRepository;

@@ -1,10 +1,13 @@
 import { Router } from 'express';
-import { getPaymentsByTicketId } from '@/controllers/payments-controllers';
+import { createTicketPayment, getPaymentsByTicketId } from '@/controllers/payments-controllers';
 import { authenticateToken } from '@/middlewares';
 
 const paymentsRouter = Router();
 
-paymentsRouter.use(authenticateToken);
-paymentsRouter.get('/', getPaymentsByTicketId);
+// eslint-disable-next-line prettier/prettier
+paymentsRouter
+  .use(authenticateToken)
+  .get('/', getPaymentsByTicketId)
+  .post('/process', createTicketPayment);
 
 export { paymentsRouter };
