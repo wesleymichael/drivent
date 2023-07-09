@@ -18,7 +18,7 @@ export async function getPaymentsByTicketId(req: AuthenticatedRequest, res: Resp
     if (error.name === 'InvalidTicketOwnershipError') {
       return res.status(httpStatus.UNAUTHORIZED).send(error.message);
     }
-    if (error.name === 'NotFoundError' || error.name === 'TicketNotFound') {
+    if (error.name === 'NotFoundDataError' || error.name === 'NotFoundError') {
       return res.status(httpStatus.NOT_FOUND).send(error.message);
     }
     return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
@@ -38,7 +38,7 @@ export async function createTicketPayment(req: AuthenticatedRequest, res: Respon
     if (error.name === 'InvalidTicketOwnershipError') {
       return res.status(httpStatus.UNAUTHORIZED).send(error.message);
     }
-    if (error.name === 'NotFoundError' || error.name === 'TicketNotFound') {
+    if (error.name === 'NotFoundDataError' || error.name === 'NotFoundError') {
       return res.status(httpStatus.NOT_FOUND).send(error.message);
     }
     return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);

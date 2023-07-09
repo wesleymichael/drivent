@@ -18,7 +18,7 @@ export async function getTicket(req: AuthenticatedRequest, res: Response) {
     const ticket = await ticketService.getTicketById(userId);
     return res.status(httpStatus.OK).send(ticket);
   } catch (error) {
-    if (error.name === 'NotFoundError') {
+    if (error.name === 'NotFoundDataError' || error.name === 'NotFoundError') {
       return res.status(httpStatus.NOT_FOUND).send(error.message);
     }
     return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
@@ -32,10 +32,10 @@ export async function postTicket(req: AuthenticatedRequest, res: Response) {
     const ticket = await ticketService.postTicket(ticketTypeId, userId);
     return res.status(httpStatus.CREATED).send(ticket);
   } catch (error) {
-    if (error.name === 'UnsetTicketType' || error.name === 'TicketNotCreated') {
+    if (error.name === 'UnsentData' || error.name === 'TicketNotCreated') {
       return res.status(httpStatus.BAD_REQUEST).send(error.message);
     }
-    if (error.name === 'NotFoundEnrolment' || error.name === 'NotFoundError') {
+    if (error.name === 'NotFoundDataError' || error.name === 'NotFoundError') {
       return res.status(httpStatus.NOT_FOUND).send(error.message);
     }
     return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);

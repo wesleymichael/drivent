@@ -44,6 +44,17 @@ async function getTicketTypePrice(ticketTypeId: number) {
   });
 }
 
+async function checkTicketOwnership(ticketId: number, userId: number) {
+  return await prisma.ticket.findFirst({
+    where: {
+      id: ticketId,
+      Enrollment: {
+        userId: userId,
+      },
+    },
+  });
+}
+
 async function updateTicketStatus(userId: number) {
   return await prisma.ticket.updateMany({
     data: {
@@ -64,6 +75,7 @@ const ticketRepository = {
   getTicket,
   getTicketTypePrice,
   updateTicketStatus,
+  checkTicketOwnership,
 };
 
 export default ticketRepository;
