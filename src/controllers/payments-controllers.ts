@@ -12,35 +12,31 @@ export async function getPaymentsByTicketId(req: AuthenticatedRequest, res: Resp
     const payment = await paymentService.getPaymentsByTicketId(ticketId, userId);
     return res.status(httpStatus.OK).send(payment);
   } catch (error) {
-    if (error.name === 'UnsentData') {
-      return res.status(httpStatus.BAD_REQUEST).send(error.message);
-    }
-    if (error.name === 'InvalidTicketOwnershipError') {
-      return res.status(httpStatus.UNAUTHORIZED).send(error.message);
-    }
-    if (error.name === 'NotFoundDataError' || error.name === 'NotFoundError') {
-      return res.status(httpStatus.NOT_FOUND).send(error.message);
-    }
-    return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
+    return handleError(error, res);
   }
 }
 
 export async function createTicketPayment(req: AuthenticatedRequest, res: Response) {
   const bodyPayment: BodyPayment = req.body;
   const userId = req.userId;
+
   try {
     const payment = await paymentService.createTicketPayment(bodyPayment, userId);
     return res.status(httpStatus.OK).send(payment);
   } catch (error) {
-    if (error.name === 'UnsentData') {
-      return res.status(httpStatus.BAD_REQUEST).send(error.message);
-    }
-    if (error.name === 'InvalidTicketOwnershipError') {
-      return res.status(httpStatus.UNAUTHORIZED).send(error.message);
-    }
-    if (error.name === 'NotFoundDataError' || error.name === 'NotFoundError') {
-      return res.status(httpStatus.NOT_FOUND).send(error.message);
-    }
-    return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
+    return handleError(error, res);
   }
+}
+
+function handleError(error: Error, res: Response) {
+  if (error.name === 'UnsentData') {
+    return res.status(httpStatus.BAD_REQUEST).send(error.message);
+  }
+  if (error.name === 'InvalidTicketOwnershipError') {
+    return res.status(httpStatus.UNAUTHORIZED).send(error.message);
+  }
+  if (error.name === 'NotFoundDataError' || error.name === 'NotFoundError') {
+    return res.status(httpStatus.NOT_FOUND).send(error.message);
+  }
+  return res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
 }
