@@ -48,7 +48,7 @@ async function createTicketPayment(bodyPayment: BodyPayment, userId: number): Pr
     throw invalidTicketOwnershipError();
   }
 
-  const ticketType = await ticketRepository.getTicketTypePrice(ticket.ticketTypeId);
+  const ticketType = await ticketRepository.getTicketType(ticket.ticketTypeId);
 
   const data: CreatePayment = {
     ticketId,

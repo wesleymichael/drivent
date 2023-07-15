@@ -33,11 +33,8 @@ async function getTicket(ticketId: number) {
   });
 }
 
-async function getTicketTypePrice(ticketTypeId: number) {
+async function getTicketType(ticketTypeId: number) {
   return prisma.ticketType.findUnique({
-    select: {
-      price: true,
-    },
     where: {
       id: ticketTypeId,
     },
@@ -73,7 +70,7 @@ const ticketRepository = {
   findTicketById,
   createTicket,
   getTicket,
-  getTicketTypePrice,
+  getTicketType,
   updateTicketStatus,
   checkTicketOwnership,
 };
