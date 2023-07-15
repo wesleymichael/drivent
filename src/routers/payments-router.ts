@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createTicketPayment, getPaymentsByTicketId } from '@/controllers/payments-controllers';
+import { createTicketPayment, getPaymentsByTicketId } from '@/controllers';
 import { authenticateToken } from '@/middlewares';
 
 const paymentsRouter = Router();
