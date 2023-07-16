@@ -6,8 +6,9 @@ import ticketRepository from '@/repositories/ticket-repository';
 
 async function getHotels(userId: number): Promise<Hotel[]> {
   const result = await enrollmentRepository.findEnrollmentAndTicketByUserId(userId);
-  const ticket = result.Ticket[0];
-  if (!result.id || !ticket) {
+
+  const ticket = result?.Ticket[0];
+  if (!result || !ticket) {
     throw notFoundError();
   }
 
