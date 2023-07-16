@@ -1,4 +1,4 @@
-import { Payment, Ticket } from '@prisma/client';
+import { Hotel, Payment, Room, Ticket } from '@prisma/client';
 
 export type ApplicationError = {
   name: string;
@@ -75,3 +75,5 @@ export type BodyPayment = {
 };
 
 export type CreatePayment = Omit<Payment, 'id' | 'createdAt' | 'updatedAt'>;
+
+export type HotelWithRooms = Hotel | Room[];
