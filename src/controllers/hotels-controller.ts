@@ -23,7 +23,7 @@ export async function getRoomsByHotelId(req: AuthenticatedRequest, res: Response
   const userId = req.userId;
   const hotelId = Number(req.params.hotelId);
   try {
-    const hotelWithRooms = hotelService.getRoomsByHotelId(userId, hotelId);
+    const hotelWithRooms = await hotelService.getRoomsByHotelId(userId, hotelId);
     return res.send(hotelWithRooms);
   } catch (error) {
     if (error.name === 'NotFoundError') {

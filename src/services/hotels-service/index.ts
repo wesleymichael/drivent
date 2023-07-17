@@ -20,7 +20,7 @@ async function rulesValidation(userId: number) {
 }
 
 async function getHotels(userId: number): Promise<Hotel[]> {
-  rulesValidation(userId);
+  await rulesValidation(userId);
   const hotels = await hotelRepository.findHotels();
   if (hotels.length === 0) {
     throw notFoundError();
@@ -33,7 +33,7 @@ async function getRoomsByHotelId(userId: number, hotelId: number): Promise<Hotel
     throw unsentData('Unsent hotelId');
   }
 
-  rulesValidation(userId);
+  await rulesValidation(userId);
 
   const hotelWithRooms = await hotelRepository.findRoomsByHotelId(hotelId);
   if (!hotelWithRooms) {
