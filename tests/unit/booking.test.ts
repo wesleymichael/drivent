@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
 import { createRoomMock } from '../factories';
 import bookingService from '@/services/booking-service';
 import bookingRepository from '@/repositories/booking-repository';
