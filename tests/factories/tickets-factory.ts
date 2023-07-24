@@ -44,3 +44,13 @@ export async function createTicketTypeWithHotel() {
     },
   });
 }
+
+export async function createTicketTypeMock(isRemote?: boolean, includesHotel?: boolean) {
+  return {
+    id: faker.datatype.number(),
+    name: faker.name.findName(),
+    price: faker.datatype.number(),
+    isRemote: isRemote ?? faker.datatype.boolean(),
+    includesHotel: includesHotel ?? faker.datatype.boolean(),
+  };
+}

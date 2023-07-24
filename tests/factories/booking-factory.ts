@@ -18,3 +18,17 @@ export function createBooking(userId: number, roomId: number) {
     },
   });
 }
+
+export function createRoomWithBookingCountMock(capacity?: number, bookingCount?: number) {
+  return {
+    id: faker.datatype.number(),
+    capacity: capacity ?? faker.datatype.number({ min: 2, max: 6 }),
+    bookingCount: bookingCount ?? 0,
+  };
+}
+
+export function createBookingMock() {
+  return {
+    id: faker.datatype.number(),
+  };
+}

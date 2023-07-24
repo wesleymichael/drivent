@@ -1,6 +1,6 @@
 import faker from '@faker-js/faker';
 import { generateCPF, getStates } from '@brazilian-utils/brazilian-utils';
-import { User } from '@prisma/client';
+import { TicketStatus, User } from '@prisma/client';
 
 import { createUser } from './users-factory';
 import { prisma } from '@/config';
@@ -40,4 +40,18 @@ export function createhAddressWithCEP() {
     cidade: 'São Paulo',
     uf: 'SP',
   };
+}
+
+export function createEnrollmentWithTicketMock(ticketStatus?: string) {
+  const result = {
+    id: faker.datatype.number(),
+    Ticket: [
+      {
+        id: faker.datatype.number(),
+        ticketTypeId: faker.datatype.number(),
+        status: ticketStatus ?? TicketStatus.RESERVED,
+      },
+    ],
+  };
+  return result;
 }
