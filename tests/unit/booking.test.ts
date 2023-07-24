@@ -9,7 +9,7 @@ import {
 } from '../factories';
 import bookingService from '@/services/booking-service';
 import bookingRepository from '@/repositories/booking-repository';
-import { notFoundError, unauthorizedError } from '@/errors';
+import { forbiddenError, notFoundError } from '@/errors';
 import enrollmentRepository from '@/repositories/enrollment-repository';
 import ticketRepository from '@/repositories/ticket-repository';
 
@@ -58,7 +58,7 @@ describe('Post booking', () => {
     expect(enrollmentRepository.findEnrollmentAndTicketByUserId).toBeCalledTimes(1);
   });
 
-  it('should throw Unauthorized Error when ticket not paid', async () => {
+  it('should throw Forbidden Error when ticket not paid', async () => {
     const userId = faker.datatype.number();
     const roomId = faker.datatype.number();
     const enrollmentWithTicketMock = createEnrollmentWithTicketMock();
@@ -72,12 +72,12 @@ describe('Post booking', () => {
       return ticketTypeMock;
     });
     const result = bookingService.createBooking(userId, roomId);
-    await expect(result).rejects.toEqual(unauthorizedError());
+    await expect(result).rejects.toEqual(forbiddenError());
     expect(enrollmentRepository.findEnrollmentAndTicketByUserId).toBeCalledTimes(1);
     expect(ticketRepository.getTicketType).toBeCalledTimes(1);
   });
 
-  it('should throw Unauthorized Error when ticket is remote', async () => {
+  it('should throw forbidden Error when ticket is remote', async () => {
     const userId = faker.datatype.number();
     const roomId = faker.datatype.number();
     const enrollmentWithTicketMock = createEnrollmentWithTicketMock('PAID');
@@ -92,12 +92,12 @@ describe('Post booking', () => {
       return ticketTypeMock;
     });
     const result = bookingService.createBooking(userId, roomId);
-    await expect(result).rejects.toEqual(unauthorizedError());
+    await expect(result).rejects.toEqual(forbiddenError());
     expect(enrollmentRepository.findEnrollmentAndTicketByUserId).toBeCalledTimes(1);
     expect(ticketRepository.getTicketType).toBeCalledTimes(1);
   });
 
-  it('should throw unauthorized error when ticket does not include hotel', async () => {
+  it('should throw forbidden error when ticket does not include hotel', async () => {
     const userId = faker.datatype.number();
     const roomId = faker.datatype.number();
     const enrollmentWithTicketMock = createEnrollmentWithTicketMock('PAID');
@@ -113,7 +113,7 @@ describe('Post booking', () => {
       return ticketTypeMock;
     });
     const result = bookingService.createBooking(userId, roomId);
-    await expect(result).rejects.toEqual(unauthorizedError());
+    await expect(result).rejects.toEqual(forbiddenError());
     expect(enrollmentRepository.findEnrollmentAndTicketByUserId).toBeCalledTimes(1);
     expect(ticketRepository.getTicketType).toBeCalledTimes(1);
   });
@@ -143,7 +143,7 @@ describe('Post booking', () => {
     expect(bookingRepository.getRoomWithBookingCount).toBeCalledTimes(1);
   });
 
-  it('should throw bad resquest error when there is no vacancy', async () => {
+  it('should throw forbidden error when there is no vacancy', async () => {
     const userId = faker.datatype.number();
     const roomId = faker.datatype.number();
     const enrollmentWithTicketMock = createEnrollmentWithTicketMock('PAID');
@@ -167,7 +167,7 @@ describe('Post booking', () => {
     });
 
     const result = bookingService.createBooking(userId, roomId);
-    await expect(result).rejects.toEqual(unauthorizedError());
+    await expect(result).rejects.toEqual(forbiddenError());
     expect(enrollmentRepository.findEnrollmentAndTicketByUserId).toBeCalledTimes(1);
     expect(ticketRepository.getTicketType).toBeCalledTimes(1);
     expect(bookingRepository.getRoomWithBookingCount).toBeCalledTimes(1);

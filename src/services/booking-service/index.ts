@@ -1,4 +1,4 @@
-import { forbiddenError, notFoundError, unauthorizedError } from '@/errors';
+import { forbiddenError, notFoundError } from '@/errors';
 import bookingRepository from '@/repositories/booking-repository';
 import enrollmentRepository from '@/repositories/enrollment-repository';
 import ticketRepository from '@/repositories/ticket-repository';
