@@ -29,6 +29,9 @@ async function getRoomWithBookingCount(roomId: number) {
     },
   });
 
+  if (!room) {
+    return null;
+  }
   return {
     ...room,
     bookingCount: bookingCount,
