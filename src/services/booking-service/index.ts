@@ -1,6 +1,7 @@
 import { forbiddenError, notFoundError } from '@/errors';
 import bookingRepository from '@/repositories/booking-repository';
 import enrollmentRepository from '@/repositories/enrollment-repository';
+import roomRepository from '@/repositories/room-repository';
 import ticketRepository from '@/repositories/ticket-repository';
 
 async function getBooking(userId: number) {
@@ -24,7 +25,7 @@ async function createBooking(userId: number, roomId: number) {
     throw forbiddenError();
   }
 
-  const roomWithBookingCount = await bookingRepository.getRoomWithBookingCount(roomId);
+  const roomWithBookingCount = await roomRepository.getRoomWithBookingCount(roomId);
   if (!roomWithBookingCount) {
     throw notFoundError();
   }
@@ -42,7 +43,7 @@ async function updateBooking(userId: number, roomId: number, bookingId: number) 
     throw forbiddenError();
   }
 
-  const roomWithBookingCount = await bookingRepository.getRoomWithBookingCount(roomId);
+  const roomWithBookingCount = await roomRepository.getRoomWithBookingCount(roomId);
   if (!roomWithBookingCount) {
     throw notFoundError();
   }
