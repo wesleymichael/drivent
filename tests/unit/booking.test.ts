@@ -12,6 +12,7 @@ import bookingRepository from '@/repositories/booking-repository';
 import { forbiddenError, notFoundError } from '@/errors';
 import enrollmentRepository from '@/repositories/enrollment-repository';
 import ticketRepository from '@/repositories/ticket-repository';
+import roomRepository from '@/repositories/room-repository';
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -134,13 +135,13 @@ describe('Post booking', () => {
       return ticketTypeMock;
     });
 
-    jest.spyOn(bookingRepository, 'getRoomWithBookingCount').mockResolvedValueOnce(null);
+    jest.spyOn(roomRepository, 'getRoomWithBookingCount').mockResolvedValueOnce(null);
 
     const result = bookingService.createBooking(userId, roomId);
     await expect(result).rejects.toEqual(notFoundError());
     expect(enrollmentRepository.findEnrollmentAndTicketByUserId).toBeCalledTimes(1);
     expect(ticketRepository.getTicketType).toBeCalledTimes(1);
-    expect(bookingRepository.getRoomWithBookingCount).toBeCalledTimes(1);
+    expect(roomRepository.getRoomWithBookingCount).toBeCalledTimes(1);
   });
 
   it('should throw forbidden error when there is no vacancy', async () => {
@@ -162,7 +163,7 @@ describe('Post booking', () => {
       return ticketTypeMock;
     });
 
-    jest.spyOn(bookingRepository, 'getRoomWithBookingCount').mockImplementationOnce((): any => {
+    jest.spyOn(roomRepository, 'getRoomWithBookingCount').mockImplementationOnce((): any => {
       return roomWithBookingCountMock;
     });
 
@@ -170,7 +171,7 @@ describe('Post booking', () => {
     await expect(result).rejects.toEqual(forbiddenError());
     expect(enrollmentRepository.findEnrollmentAndTicketByUserId).toBeCalledTimes(1);
     expect(ticketRepository.getTicketType).toBeCalledTimes(1);
-    expect(bookingRepository.getRoomWithBookingCount).toBeCalledTimes(1);
+    expect(roomRepository.getRoomWithBookingCount).toBeCalledTimes(1);
   });
 
   it('should return a booking when post is successful', async () => {
@@ -191,7 +192,7 @@ describe('Post booking', () => {
       return ticketTypeMock;
     });
 
-    jest.spyOn(bookingRepository, 'getRoomWithBookingCount').mockImplementationOnce((): any => {
+    jest.spyOn(roomRepository, 'getRoomWithBookingCount').mockImplementationOnce((): any => {
       return roomWithBookingCountMock;
     });
 
@@ -203,7 +204,7 @@ describe('Post booking', () => {
     expect(result).toEqual(bookingMock.id);
     expect(enrollmentRepository.findEnrollmentAndTicketByUserId).toBeCalledTimes(1);
     expect(ticketRepository.getTicketType).toBeCalledTimes(1);
-    expect(bookingRepository.getRoomWithBookingCount).toBeCalledTimes(1);
+    expect(roomRepository.getRoomWithBookingCount).toBeCalledTimes(1);
     expect(bookingRepository.createBooking).toBeCalledTimes(1);
   });
 });
@@ -230,12 +231,12 @@ describe('Put booking', () => {
       return booking;
     });
 
-    jest.spyOn(bookingRepository, 'getRoomWithBookingCount').mockResolvedValueOnce(null);
+    jest.spyOn(roomRepository, 'getRoomWithBookingCount').mockResolvedValueOnce(null);
 
     const result = bookingService.updateBooking(userId, roomId, booking.id);
     await expect(result).rejects.toEqual(notFoundError());
     expect(bookingRepository.getBooking).toBeCalledTimes(1);
-    expect(bookingRepository.getRoomWithBookingCount).toBeCalledTimes(1);
+    expect(roomRepository.getRoomWithBookingCount).toBeCalledTimes(1);
   });
 
   it('should throw forbidden error when there is no vacancy', async () => {
@@ -250,14 +251,14 @@ describe('Put booking', () => {
       return booking;
     });
 
-    jest.spyOn(bookingRepository, 'getRoomWithBookingCount').mockImplementationOnce((): any => {
+    jest.spyOn(roomRepository, 'getRoomWithBookingCount').mockImplementationOnce((): any => {
       return roomWithBookingCountMock;
     });
 
     const result = bookingService.updateBooking(userId, roomId, booking.id);
     await expect(result).rejects.toEqual(forbiddenError());
     expect(bookingRepository.getBooking).toBeCalledTimes(1);
-    expect(bookingRepository.getRoomWithBookingCount).toBeCalledTimes(1);
+    expect(roomRepository.getRoomWithBookingCount).toBeCalledTimes(1);
   });
 
   it('should return a booking when post is successful', async () => {
@@ -271,7 +272,7 @@ describe('Put booking', () => {
       return booking;
     });
 
-    jest.spyOn(bookingRepository, 'getRoomWithBookingCount').mockImplementationOnce((): any => {
+    jest.spyOn(roomRepository, 'getRoomWithBookingCount').mockImplementationOnce((): any => {
       return roomWithBookingCountMock;
     });
 
@@ -284,6 +285,6 @@ describe('Put booking', () => {
     expect(result).toEqual(booking.id);
     expect(bookingRepository.updateBooking).toBeCalledTimes(1);
     expect(bookingRepository.getBooking).toBeCalledTimes(1);
-    expect(bookingRepository.getRoomWithBookingCount).toBeCalledTimes(1);
+    expect(roomRepository.getRoomWithBookingCount).toBeCalledTimes(1);
   });
 });
